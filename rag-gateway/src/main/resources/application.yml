@@ -50,7 +50,7 @@ spring:
 
 # JWT 配置 (用于网关鉴权过滤器)
 jwt:
-  secret: rag-secret-key-for-jwt-token-generation-must-be-at-least-256-bits-long-for-hs256-algorithm
+  secret: ${JWT_SECRET:rag-secret-key-for-jwt-token-generation-must-be-at-least-256-bits-long-for-hs256-algorithm}
   expiration: 86400
 
 # 日志配置
