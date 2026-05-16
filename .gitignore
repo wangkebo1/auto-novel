@@ -1,0 +1,68 @@
+# 环境变量和密钥（必须忽略）
+.env
+.env.local
+.env.*.local
+*.key
+*.pem
+*.p12
+*.pfx
+
+# Spring Boot 配置文件（包含敏感信息）
+**/application.yml
+**/application.properties
+**/application-*.yml
+**/application-*.properties
+# 但保留模板文件
+!**/application.yml.example
+!**/application.properties.example
+
+# API 调试产物（历史兼容：防止误落到项目根目录）
+audio_test*.json
+*_req.json
+req*.json
+resp*.json
+resp_stream.txt
+sse*.txt
+stream_test.txt
+sync_test.txt
+
+# 统一调试输出目录（固定文件名覆盖输出）
+tmp/api-debug/
+
+# Common local artifacts and caches
+node_modules/
+dist/
+target/
+uploads/
+tmp/
+tmpclass/
+
+# Nested project artifacts
+rag-frontend/node_modules/
+rag-frontend/dist/
+rag-frontend/eslint-report.json
+rag-backend/target/
+rag-common/target/
+rag-gateway/target/
+
+# Local tool metadata
+.vscode/
+.agent/
+.claude/
+.clinerules/
+.codebuddy/
+.comate/
+.cursor/
+.gemini/
+.kiro/
+.lingma/
+.qoder/
+.qwen/
+.roo/
+.trae/
+.windsurf/
+
+
+.codex/
+Microsoft/
+springAI-source-*.zip

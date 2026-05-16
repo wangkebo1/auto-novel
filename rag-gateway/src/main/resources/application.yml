@@ -1,0 +1,60 @@
+server:
+  port: 8085
+
+spring:
+  application:
+    name: rag-gateway
+  cloud:
+    compatibility-verifier:
+      enabled: false  # Spring Boot 3.4.2 与 Spring Cloud 2023.0.3 版本校验跳过
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+        namespace: public
+    gateway:
+      discovery:
+        locator:
+          enabled: true  # 启用服务发现路由
+          lower-case-service-id: true  # 服务名转小写
+      routes:
+        # RAG 后端服务路由
+        - id: rag-backend
+          uri: lb://rag-backend  # lb = LoadBalancer
+          predicates:
+            - Path=/api/**
+          filters:
+            - StripPrefix=0
+        # 认证服务路由 (当前和 rag-backend 在一起)
+        - id: rag-auth
+          uri: lb://rag-backend
+          predicates:
+            - Path=/api/auth/**
+          filters:
+            - StripPrefix=0
+      # 全局 CORS 配置
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins:
+              - "http://localhost:5173"
+              - "http://127.0.0.1:5173"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - OPTIONS
+            allowedHeaders: "*"
+            allowCredentials: true
+            maxAge: 3600
+
+# JWT 配置 (用于网关鉴权过滤器)
+jwt:
+  secret: rag-secret-key-for-jwt-token-generation-must-be-at-least-256-bits-long-for-hs256-algorithm
+  expiration: 86400
+
+# 日志配置
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG
+    com.rag.gateway: DEBUG

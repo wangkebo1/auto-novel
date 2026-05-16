@@ -1,0 +1,11 @@
+ALTER TABLE novels
+    ADD COLUMN IF NOT EXISTS cover_url TEXT;
+
+ALTER TABLE novels
+    ALTER COLUMN cover_url TYPE TEXT;
+
+ALTER TABLE chapters
+    ADD COLUMN IF NOT EXISTS completed_at TIMESTAMP;
+
+ALTER TABLE chapters
+    ADD COLUMN IF NOT EXISTS notes TEXT;
