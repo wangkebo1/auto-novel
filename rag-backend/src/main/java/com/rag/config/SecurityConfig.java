@@ -55,6 +55,14 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable) // 禁用 CSRF（前后端分离）
                 .cors(cors -> {}) // 使用 AppConfig 中的 CORS 配置
                 .authorizeHttpRequests(auth -> auth
+                        // Swagger UI 和 API 文档（必须在最前面）
+                        .requestMatchers(
+                                "/swagger-ui.html",
+                                "/swagger-ui/**",
+                                "/v3/api-docs/**",
+                                "/swagger-resources/**",
+                                "/webjars/**"
+                        ).permitAll()
                         // 公开接口：登录、注册
                         .requestMatchers("/api/auth/**").permitAll()
                         // 需要认证的接口
